@@ -1,0 +1,11 @@
+source 'https://rubygems.org'
+ruby "1.9.3"
+gem 'sinatra'
+gem 'mongoid'
+gem 'mongo'
+gem 'json'
+gem 'mongoid'
+gem 'sinatra-reloader'
+gem 'pry'
+gem 'pry-nav'
+gem 'bson_ext'

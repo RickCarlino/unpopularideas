@@ -1,0 +1,36 @@
+<html>
+<head>
+  <title>Unpopular Ideas</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+
+<h1>Unpopular Ideas</h1>
+<div id="container" class='widget'>
+  <div id="input1">
+    <input class='inputBox' type="text" placeholder="Enter idea here. Double click items to edit them."/>
+    <div class="button">+</div>
+  </div>
+  
+  <div id="ideaCollection">
+    <ul>
+      <li><div class="title"><input class="inputBox" type="text" value="I love cell phone contracts."></div><div class="destroy">×</div></li>
+    </ul>  
+  </div>
+</div>
+
+<p>(C) 2012, <a href="http://www.rickcarlino.com">Rick Carlino</a></p>
+  <script src="js/jquery.js" type="text/javascript"></script>
+  <script src="js/underscore_dev.js" type="text/javascript"></script>
+  <script src="js/backbone.js" type="text/javascript"></script>
+  <script type="text/javascript" src='js/app.js'></script>
+
+  <script type="text/template" id= 'ideas-template'>
+    <ul class = "ideas"></ul>
+  </script>
+
+  <script type="text/template" id='idea-template'>
+    <div class="title"><%= title %></div><div class="destroy">×</div>
+  </script>
+</body>
+</html>
