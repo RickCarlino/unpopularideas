@@ -2,12 +2,11 @@
 $(document).ready(function ($) {
     console.log('App loading...');
     Idea = Backbone.Model.extend({
+        idAttribute: "_id",
         defaults: function () {
             return {
                 title: "none set",
-                url: function () {
-                    return ('/ideas');
-                }
+                url: '/ideas',
             };
         },
         initialize: function () {
@@ -22,17 +21,50 @@ $(document).ready(function ($) {
         }
     });
 
+    InputView = Backbone.View.extend({
+        initialize: function () {
+            _.bindAll(this, 'render');
+            this.template = _.template($('#idea-create').html());
+        },
+        events: {
+            "keypress .inputBox"  : "newIdea",
+        },
+        newIdea: function(e) {
+            if (e.keyCode == 13) {
+                Idea.create({title: $('.inputBox').val()});
+                $('.inputBox').val('');
+                }
+        },
+        render: function () {
+            $(this.el).html(this.template);
+            return this;
+        }
+    });
 
     IdeaView = Backbone.View.extend({
         tagName: 'li',
         initialize: function () {
             //Javascript is dumb...
-            _.bindAll(this, 'render');
+            _.bindAll(this, 'render', 'remove');
             // implemented so that it will refresh when the model changes...
             this.model.bind('change', this.render);
+            this.model.bind('destroy', this.remove);
             this.template = _.template($('#idea-template').html());
         },
+        events:{
+            'click .destroy' : 'clear',
+            'click .title'   : 'edit'
+        },
+        clear: function(){
+            console.log('Destroyed');
+            this.model.destroy();
+        },
 
+        edit: function(){
+            console.log('PENDING: This will edit the item in the future.');
+            //this.$el.find('.title').text(';-O')
+
+        },
         render: function () {
             var renderedContent = this.template(this.model.toJSON());
             $(this.el).html(renderedContent);
@@ -80,8 +112,10 @@ $(document).ready(function ($) {
             this.stream = new IdeasView({
                 collection: ideas
             });
+            this.inputBox = new InputView;
         },
         home: function () {
+            $('#container').append(this.inputBox.render().el);
             $('#container').append(this.stream.render().el);
         }
     });

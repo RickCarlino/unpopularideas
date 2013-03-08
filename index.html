@@ -8,14 +8,11 @@
 <h1>Unpopular Ideas</h1>
 <div id="container" class='widget'>
   <div id="input1">
-    <input class='inputBox' type="text" placeholder="Enter idea here. Double click items to edit them."/>
-    <div class="button">+</div>
+    
   </div>
   
   <div id="ideaCollection">
-    <ul>
-      <li><div class="title"><input class="inputBox" type="text" value="I love cell phone contracts."></div><div class="destroy">×</div></li>
-    </ul>  
+
   </div>
 </div>
 
@@ -31,6 +28,14 @@
 
   <script type="text/template" id='idea-template'>
     <div class="title"><%= title %></div><div class="destroy">×</div>
+  </script>
+
+  <script type="text/template" id='idea-create'>
+    <input class='inputBox' type="text" placeholder="Enter idea here. Double click items to edit them."/>
+  </script>
+
+  <script type="text/template" id='idea-edit'>
+      <div class="title"><input class="inputBox" type="text" value="<%= title %>"></div><div class="destroy">×</div>
   </script>
 </body>
 </html>

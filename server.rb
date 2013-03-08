@@ -4,6 +4,9 @@ require 'pry' if development?
 require 'mongo'
 require 'mongoid'
 
+# Want a social network where you can talk about popular topics online? Then go sign up for reddit.
+# Need a place to post your unpopular ramblings that no one wants to listen to? You're in the right place.
+
 configure do
   Mongoid.load!('mongoid.yml')
 end
@@ -12,16 +15,16 @@ class Idea
   include Mongoid::Document
   field :name
   validates_uniqueness_of :name
+  validates_presence_of :name
 end
-
-
 #== STATIC HTTP SERVER STUFF ==
 
 get 'favicon.ico' do
 end
 
 get '/:dir/:file' do
-  #One level deep! That's all you get!
+  # "Please sir, I want some more nested resources"
+  # One level deep! That's all you get!
   File.open("#{params[:dir]}/#{params[:file]}").readlines
 end
 
@@ -44,7 +47,7 @@ get '/ideas' do
   #WARNING: THIS IS A TEMPORARY STUB!!!
   #read (all)
     content_type 'application/json'
-    File.readlines('stub.json')
+    Idea.all.limit(10).to_json
 end
 
 put '/ideas' do
@@ -52,7 +55,7 @@ put '/ideas' do
     binding.pry
 end
 
-delete '/ideas' do
+delete '/ideas/:id' do
   #destroy
-    binding.pry
+    Idea.find(params[:id]).destroy
 end
