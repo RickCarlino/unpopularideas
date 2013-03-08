@@ -9,6 +9,6 @@ Installation
 ============
 
 1. 'bundle install'
-2. 'ruby main.rb'
+2. 'ruby server.rb'
 3. navigate to http://localhost:4567
 4. Have fun!
