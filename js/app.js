@@ -31,7 +31,8 @@ $(document).ready(function ($) {
         },
         newIdea: function(e) {
             if (e.keyCode == 13) {
-                Idea.create({title: $('.inputBox').val()});
+                var newIdea = new Idea({title: $('.inputBox').val()});
+                newIdea.save();
                 $('.inputBox').val('');
                 }
         },
