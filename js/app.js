@@ -108,9 +108,10 @@ $(document).ready(function ($) {
             if (e.keyCode == 13) {
                 var newIdea = new Idea({title: $('.inputBox').val()});
                 newIdea.save();
+                this.collection.add(newIdea);
                 $('.inputBox').val('');
-                console.log('Added a new one')
-                this.reset();
+                ideas.reset();
+                ideas.fetch();
                 }
         }
     });
