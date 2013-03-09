@@ -8,6 +8,7 @@ require 'mongoid'
 # Want a social network where you can talk about popular topics online? Then go sign up for reddit.
 # Need a place to post your unpopular ramblings that no one wants to listen to? You're in the right place.
 
+
 configure do
   Mongoid.load!('mongoid.yml')
 end
@@ -52,6 +53,7 @@ get '/ideas' do
 end
 
 put '/ideas' do
+  binding.pry
   #update
 end
 
