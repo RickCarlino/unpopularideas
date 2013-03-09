@@ -22,26 +22,26 @@ $(document).ready(function ($) {
         urlRoot: '/ideas'
     });
 
-    InputView = Backbone.View.extend({
-        initialize: function () {
-            _.bindAll(this, 'render');
-            this.template = _.template($('#idea-create').html());
-        },
-        events: {
-            "keypress .inputBox"  : "newIdea",
-        },
-        newIdea: function(e) {
-            if (e.keyCode == 13) {
-                var newIdea = new Idea({title: $('.inputBox').val()});
-                newIdea.save();
-                $('.inputBox').val('');
-                }
-        },
-        render: function () {
-            $(this.el).html(this.template);
-            return this;
-        }
-    });
+    // InputView = Backbone.View.extend({
+
+    //     initialize: function () {
+    //         this.template = _.template($('#idea-create').html());
+    //     },
+    //     events: {
+    //         "keypress .inputBox"  : "newIdea",
+    //     },
+    //     newIdea: function(e) {
+    //         if (e.keyCode == 13) {
+    //             var newIdea = new Idea({title: $('.inputBox').val()});
+    //             newIdea.save();
+    //             $('.inputBox').val('');
+    //             }
+    //     },
+    //     render: function () {
+    //         $(this.el).html(this.template);
+    //         return this;
+    //     }
+    // });
 
     IdeaView = Backbone.View.extend({
         tagtitle: 'li',
@@ -100,6 +100,18 @@ $(document).ready(function ($) {
                 $ideas.append(ideaItem.render().el);
             });
             return this;
+        },
+        events: {
+            "keypress .inputBox"  : "newIdea"
+        },
+        newIdea: function(e) {
+            if (e.keyCode == 13) {
+                var newIdea = new Idea({title: $('.inputBox').val()});
+                newIdea.save();
+                $('.inputBox').val('');
+                console.log('Added a new one')
+                this.reset();
+                }
         }
     });
 
@@ -114,10 +126,8 @@ $(document).ready(function ($) {
             this.stream = new IdeasView({
                 collection: ideas
             });
-            this.inputBox = new InputView;
         },
         home: function () {
-            $('#container').append(this.inputBox.render().el);
             $('#container').append(this.stream.render().el);
         }
     });
