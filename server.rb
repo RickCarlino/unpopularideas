@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'pry' if development?
+require 'pry-nav' if development?
 require 'mongo'
 require 'mongoid'
 
@@ -13,19 +14,20 @@ end
 
 class Idea
   include Mongoid::Document
-  field :name
-  validates_uniqueness_of :name
-  validates_presence_of :name
+  field :title
+  validates_uniqueness_of :title
+  validates_presence_of :title
 end
 #== STATIC HTTP SERVER STUFF ==
-
-get 'favicon.ico' do
-end
 
 get '/:dir/:file' do
   # "Please sir, I want some more nested resources"
   # One level deep! That's all you get!
   File.open("#{params[:dir]}/#{params[:file]}").readlines
+end
+
+get 'favicon.ico' do
+  ''
 end
 
 get '/' do
@@ -39,20 +41,18 @@ end
 post '/ideas' do
   #create
   request_body = JSON.parse(request.body.read.to_s)
-  Idea.create(name: request_body['title'])
-  binding.pry
+  Idea.create(title: request_body['title'])
 end
 
 get '/ideas' do
   #WARNING: THIS IS A TEMPORARY STUB!!!
   #read (all)
     content_type 'application/json'
-    Idea.all.limit(10).to_json
+    Idea.all.to_json
 end
 
 put '/ideas' do
   #update
-    binding.pry
 end
 
 delete '/ideas/:id' do

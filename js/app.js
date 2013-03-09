@@ -6,7 +6,7 @@ $(document).ready(function ($) {
         defaults: function () {
             return {
                 title: "none set",
-                url: '/ideas',
+                url: '/ideas'
             };
         },
         initialize: function () {
@@ -18,7 +18,8 @@ $(document).ready(function ($) {
             this.set({
                 "url": this.defaults().url
             });
-        }
+        },
+        urlRoot: '/ideas'
     });
 
     InputView = Backbone.View.extend({
@@ -43,7 +44,7 @@ $(document).ready(function ($) {
     });
 
     IdeaView = Backbone.View.extend({
-        tagName: 'li',
+        tagtitle: 'li',
         initialize: function () {
             //Javascript is dumb...
             _.bindAll(this, 'render', 'remove');
