@@ -1,4 +1,3 @@
-
 $(document).ready(function ($) {
     Idea = Backbone.Model.extend({
         idAttribute: "_id",
@@ -25,28 +24,31 @@ $(document).ready(function ($) {
             this.model.bind('destroy', this.remove);
             this.template = _.template($('#idea-template').html());
         },
-        events:{
-            'click .destroy' : 'clear',
-            'dblclick .title'   : 'edit',
-            'keypress .editBox'  : 'updateIdea'
+        events: {
+            'click .destroy': 'clear',
+            'dblclick .title': 'edit',
+            'keypress .editBox': 'updateIdea'
         },
-        clear: function(){
+        clear: function () {
             this.model.destroy();
         },
 
-        edit: function(){
+        edit: function () {
             //Optimize: Why won't it let me create a local variable here??? Hmm...
             oldTitle = this.model.get('title');
             //Optimize:
             this.$el.find('.title').html(_.template('<input class="editBox" type="text" value="<%= oldTitle %>">'));
             this.$el.find('input').focus();
-
         },
-        updateIdea: function(e){
-                if (e.keyCode == 13) {
-                this.model.set('title', $('.editBox').val());
-                this.model.save();
+        updateIdea: function (e) {
+            if (e.keyCode == 13) {
+                if ((this.$el.find('input').val().length < 50) && (this.$el.find('input').val().length > 2)) {
+                    this.model.set('title', $('.editBox').val());
+                    this.model.save();
+                    return;
                 }
+                alert('Ideas must be between 3 and 49 characters in length. Try again.');
+            }
         },
         render: function () {
             var renderedContent = this.template(this.model.toJSON());
@@ -84,21 +86,30 @@ $(document).ready(function ($) {
             return this;
         },
         events: {
-            "keypress .inputBox"  : "newIdea"
+            "keypress .inputBox": "newIdea"
         },
-        newIdea: function(e) {
+        newIdea: function (e) {
             if (e.keyCode == 13) {
-                var newIdea = new Idea();
-                newIdea.set('title', $('.inputBox').val());
-                newIdea.save();
-                $('.inputBox').val('');
-                console.log('whatevs');
-                new IdeaView({model: newIdea, collection: this.collection});
-                // Optimize: (use add() / addOne() ?). Pushing up in the name of time.
-                this.collection.fetch({success: function(){
-                    this.collection.render();
-                }});
+                if (($('.inputBox').val().length < 50) && ($('.inputBox').val().length > 2)) {
+                    var newIdea = new Idea();
+                    newIdea.set('title', $('.inputBox').val());
+                    newIdea.save();
+                    $('.inputBox').val('');
+                    console.log('whatevs');
+                    new IdeaView({
+                        model: newIdea,
+                        collection: this.collection
+                    });
+                    // Optimize: (use add() / addOne() ?). Pushing up in the name of time.
+                    this.collection.fetch({
+                        success: function () {
+                            this.collection.render();
+                        }
+                    });
+                    return;
                 }
+                    alert('Ideas must be between 3 and 49 characters in length. Try again.');
+            }
 
         }
     });
