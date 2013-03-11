@@ -49,7 +49,7 @@ end
 get '/ideas' do
   #read (all)
     content_type 'application/json'
-    Idea.all.to_json
+    Idea.all.limit(15).reverse.to_json
 end
 
 put '/ideas/:id' do
