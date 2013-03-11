@@ -95,25 +95,15 @@ $(document).ready(function ($) {
                     newIdea.set('title', $('.inputBox').val());
                     newIdea.save();
                     $('.inputBox').val('');
-                    console.log('whatevs');
-                    new IdeaView({
-                        model: newIdea,
-                        collection: this.collection
-                    });
-                    // Optimize: (use add() / addOne() ?). Pushing up in the name of time.
-                    this.collection.fetch({
-                        success: function () {
-                            this.collection.render();
-                        }
-                    });
-                    return;
-                }
+                    this.collection.fetch();
+                    //wtf. Why won't it automatically repopulate?
+                } else {
                     alert('Ideas must be between 3 and 49 characters in length. Try again.');
+                    }
             }
 
         }
     });
-
 
     UnpopularIdeas = Backbone.Router.extend({
         routes: {
