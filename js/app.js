@@ -88,12 +88,18 @@ $(document).ready(function ($) {
         },
         newIdea: function(e) {
             if (e.keyCode == 13) {
-                var newIdea = new Idea;
+                var newIdea = new Idea();
                 newIdea.set('title', $('.inputBox').val());
                 newIdea.save();
                 $('.inputBox').val('');
-                new IdeaView({model: newIdea, collection: collection});
+                console.log('whatevs');
+                new IdeaView({model: newIdea, collection: this.collection});
+                // Optimize:
+                this.collection.fetch({success: function(){
+                    this.collection.render();
+                }});
                 }
+
         }
     });
 
@@ -103,7 +109,7 @@ $(document).ready(function ($) {
             '': 'home'
         },
         initialize: function () {
-            ideas = new Ideas;
+            ideas = new Ideas();
             ideas.fetch();
             this.stream = new IdeasView({
                 collection: ideas
@@ -114,7 +120,7 @@ $(document).ready(function ($) {
         }
     });
 
-    window.App = new UnpopularIdeas;
+    window.App = new UnpopularIdeas();
     Backbone.history.start();
 
 });
