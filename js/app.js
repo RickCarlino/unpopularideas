@@ -94,7 +94,7 @@ $(document).ready(function ($) {
                 $('.inputBox').val('');
                 console.log('whatevs');
                 new IdeaView({model: newIdea, collection: this.collection});
-                // Optimize:
+                // Optimize: (use add() / addOne() ?). Pushing up in the name of time.
                 this.collection.fetch({success: function(){
                     this.collection.render();
                 }});
