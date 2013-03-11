@@ -1,12 +1,10 @@
 
 $(document).ready(function ($) {
-    console.log('App loading...');
     Idea = Backbone.Model.extend({
         idAttribute: "_id",
         defaults: function () {
             return {
-                title: "none set",
-                url: '/ideas'
+                title: "none set"
             };
         },
         initialize: function () {
@@ -15,9 +13,6 @@ $(document).ready(function ($) {
                     "title": this.defaults().title
                 });
             }
-            this.set({
-                "url": this.defaults().url
-            });
         },
         urlRoot: '/ideas'
     });
