@@ -6,6 +6,10 @@ body{
     background-image:url('../img/lightpaperfibers.png');
 }
 
+p{
+  text-align: center;
+}
+
 h1 {
   text-align: center;
 }
@@ -19,10 +23,7 @@ input {
   border-radius: 5px;
 }
 
-.input{
-}
-
-#container {
+#container{
   align: center;
   display: table;
   margin-right: auto; margin-left: auto;

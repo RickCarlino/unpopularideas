@@ -7,23 +7,21 @@
 
 <h1>Unpopular Ideas</h1>
 <div id="container" class='widget'>
-  <div id="input1">
-    
-  </div>
-  
-  <div id="ideaCollection">
-
-  </div>
+  <div id="input1"></div>
+  <div id="ideaCollection"></div>
 </div>
 
+<p> Anyone can view, create, edit and delete. Have fun, keep it clean. </p>
 <p>(C) 2012, <a href="http://www.rickcarlino.com">Rick Carlino</a></p>
+
+
   <script src="js/jquery.js" type="text/javascript"></script>
   <script src="js/underscore_dev.js" type="text/javascript"></script>
   <script src="js/backbone.js" type="text/javascript"></script>
   <script type="text/javascript" src='js/app.js'></script>
 
   <script type="text/template" id= 'ideas-template'>
-  <input class='inputBox' type="text" placeholder="Enter idea here. Double click items to edit them."/>
+    <input class='inputBox' type="text" placeholder="Enter idea here. Double click items to edit them."/>
     <ul class = "ideas"></ul>
   </script>
 
@@ -35,8 +33,5 @@
     <input class='inputBox' type="text" placeholder="Enter idea here. Double click items to edit them."/>
   </script>
 
-  <script type="text/template" id='idea-edit'>
-    <input class="inputBox" type="text" value="<%= title %>">
-  </script>
 </body>
 </html>

@@ -37,9 +37,7 @@ get '/' do
   File.open("index.html").readlines
 end
 
-
-#== RESTFUL API STUFF ==
-#=== CRUD ===
+#=== REST API / Idea CRUD ===
 
 post '/ideas' do
   #create
@@ -48,7 +46,6 @@ post '/ideas' do
 end
 
 get '/ideas' do
-  #WARNING: THIS IS A TEMPORARY STUB!!!
   #read (all)
     content_type 'application/json'
     Idea.all.to_json

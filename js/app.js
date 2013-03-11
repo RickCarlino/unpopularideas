@@ -20,9 +20,7 @@ $(document).ready(function ($) {
     IdeaView = Backbone.View.extend({
         tagtitle: 'li',
         initialize: function () {
-            //Javascript is dumb...
             _.bindAll(this, 'render', 'remove');
-            // implemented so that it will refresh when the model changes...
             this.model.bind('change', this.render);
             this.model.bind('destroy', this.remove);
             this.template = _.template($('#idea-template').html());
@@ -33,13 +31,13 @@ $(document).ready(function ($) {
             'keypress .editBox'  : 'updateIdea'
         },
         clear: function(){
-            console.log('Destroyed');
             this.model.destroy();
         },
 
         edit: function(){
-            //a global? What?
+            //Optimize: Why won't it let me create a local variable here??? Hmm...
             oldTitle = this.model.get('title');
+            //Optimize:
             this.$el.find('.title').html(_.template('<input class="editBox" type="text" value="<%= oldTitle %>">'));
             this.$el.find('input').focus();
 
@@ -93,7 +91,8 @@ $(document).ready(function ($) {
                 var newIdea = new Idea;
                 newIdea.set('title', $('.inputBox').val());
                 newIdea.save();
-                $('.inputBox').val('')
+                $('.inputBox').val('');
+                new IdeaView({model: newIdea, collection: collection});
                 }
         }
     });
