@@ -55,7 +55,8 @@ $(document).ready(function ($) {
         },
         events:{
             'click .destroy' : 'clear',
-            'dblclick .title'   : 'edit'
+            'dblclick .title'   : 'edit',
+            'keypress .editBox'  : 'updateIdea'
         },
         clear: function(){
             console.log('Destroyed');
@@ -65,11 +66,15 @@ $(document).ready(function ($) {
         edit: function(){
             //a global? What?
             oldTitle = this.model.get('title');
-            this.$el.find('.title').html(_.template('<input class="inputBox" type="text" value="<%= oldTitle %>">'));
-            this.$el.find('input').focus()
-            console.log('PENDING: This will edit the item in the future.');
-            //this.$el.find('.title').text(';-O')
+            this.$el.find('.title').html(_.template('<input class="editBox" type="text" value="<%= oldTitle %>">'));
+            this.$el.find('input').focus();
 
+        },
+        updateIdea: function(e){
+                if (e.keyCode == 13) {
+                this.model.set('title', $('.editBox').val());
+                this.model.save();
+                }
         },
         render: function () {
             var renderedContent = this.template(this.model.toJSON());

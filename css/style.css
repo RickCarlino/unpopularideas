@@ -37,6 +37,14 @@ input {
   height: 30px;
 }
 
+.editBox {
+  width: 320px;
+  border-radius: 5px;
+  border: 1px black solid;
+  margin: 3px;
+  height: 30px;
+}
+
 .button {
   display: inline-block;
   border: 1px black solid;
@@ -63,7 +71,7 @@ li {
   margin: 3px;
   padding: 2px;
   list-style: none;
-  height: 25px;
+  height: 35px;
 }
 .title{
   display: inline-block;

@@ -54,8 +54,9 @@ get '/ideas' do
     Idea.all.to_json
 end
 
-put '/ideas' do
-  binding.pry
+put '/ideas/:id' do
+  request_body = JSON.parse(request.body.read.to_s)
+  Idea.find(@params[:id]).update_attributes(title: request_body['title'])
   #update
 end
 
