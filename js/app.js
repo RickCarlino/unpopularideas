@@ -22,27 +22,6 @@ $(document).ready(function ($) {
         urlRoot: '/ideas'
     });
 
-    // InputView = Backbone.View.extend({
-
-    //     initialize: function () {
-    //         this.template = _.template($('#idea-create').html());
-    //     },
-    //     events: {
-    //         "keypress .inputBox"  : "newIdea",
-    //     },
-    //     newIdea: function(e) {
-    //         if (e.keyCode == 13) {
-    //             var newIdea = new Idea({title: $('.inputBox').val()});
-    //             newIdea.save();
-    //             $('.inputBox').val('');
-    //             }
-    //     },
-    //     render: function () {
-    //         $(this.el).html(this.template);
-    //         return this;
-    //     }
-    // });
-
     IdeaView = Backbone.View.extend({
         tagtitle: 'li',
         initialize: function () {
@@ -95,6 +74,7 @@ $(document).ready(function ($) {
             _.bindAll(this, 'render');
             this.template = _.template($('#ideas-template').html());
             this.collection.bind('reset', this.render);
+            this.collection.bind('change', this.render);
         },
         render: function () {
             var $ideas, collection;
@@ -115,12 +95,9 @@ $(document).ready(function ($) {
         },
         newIdea: function(e) {
             if (e.keyCode == 13) {
-                var newIdea = new Idea({title: $('.inputBox').val()});
+                var newIdea = new Idea;
+                newIdea.set('title', $('.inputBox').val());
                 newIdea.save();
-                this.collection.add(newIdea);
-                $('.inputBox').val('');
-                ideas.reset();
-                ideas.fetch();
                 }
         }
     });
