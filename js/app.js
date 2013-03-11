@@ -98,6 +98,7 @@ $(document).ready(function ($) {
                 var newIdea = new Idea;
                 newIdea.set('title', $('.inputBox').val());
                 newIdea.save();
+                $('.inputBox').val('')
                 }
         }
     });
