@@ -55,7 +55,7 @@ $(document).ready(function ($) {
         },
         events:{
             'click .destroy' : 'clear',
-            'click .title'   : 'edit'
+            'dblclick .title'   : 'edit'
         },
         clear: function(){
             console.log('Destroyed');
@@ -63,6 +63,10 @@ $(document).ready(function ($) {
         },
 
         edit: function(){
+            //a global? What?
+            oldTitle = this.model.get('title');
+            this.$el.find('.title').html(_.template('<input class="inputBox" type="text" value="<%= oldTitle %>">'));
+            this.$el.find('input').focus()
             console.log('PENDING: This will edit the item in the future.');
             //this.$el.find('.title').text(';-O')
 

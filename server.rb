@@ -8,7 +8,6 @@ require 'mongoid'
 # Want a social network where you can talk about popular topics online? Then go sign up for reddit.
 # Need a place to post your unpopular ramblings that no one wants to listen to? You're in the right place.
 
-
 configure do
   Mongoid.load!('mongoid.yml')
 end
@@ -19,7 +18,10 @@ class Idea
   validates_uniqueness_of :title
   validates_presence_of :title
 end
+
 #== STATIC HTTP SERVER STUFF ==
+
+
 
 get '/:dir/:file' do
   # "Please sir, I want some more nested resources"
