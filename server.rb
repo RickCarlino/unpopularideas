@@ -25,9 +25,8 @@ end
 
 
 get '/:dir/:file' do
-  # "Please sir, I want some more nested resources"
-  # One level deep! That's all you get!
-  File.open("#{params[:dir]}/#{params[:file]}").readlines
+  
+  send_file File.join(params[:dir], params[:file])
 end
 
 get 'favicon.ico' do
