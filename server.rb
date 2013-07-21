@@ -5,8 +5,17 @@ require 'pry-nav' if development?
 require 'mongo'
 require 'mongoid'
 
-# Want a social network where you can talk about popular topics online? Then go sign up for reddit.
-# Need a place to post your unpopular ramblings that no one wants to listen to? You're in the right place.
+#DISCLAIMER--------------------
+
+#==============================
+# This backend is minimally
+# viable to the fullest extent
+# of the law. The focus of this
+# app was learning CRUD in 
+# backbone, rather than how to 
+# build a pragmatic RESTful API.
+# Please Keep that in mind.
+#==============================
 
 configure do
   Mongoid.load!('mongoid.yml')
@@ -20,10 +29,6 @@ class Idea
   validates_presence_of :title
 end
 
-#== STATIC HTTP SERVER STUFF ==
-
-
-
 get '/:dir/:file' do
   
   send_file File.join(params[:dir], params[:file])
@@ -36,8 +41,6 @@ end
 get '/' do
   File.open("index.html").readlines
 end
-
-#=== REST API / Idea CRUD ===
 
 post '/ideas' do
   #create
