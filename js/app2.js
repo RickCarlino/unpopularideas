@@ -2,7 +2,8 @@
 (function() {
   var Idea, IdeaView, Ideas, IdeasView, UnpopularIdeas, _ref, _ref1, _ref2, _ref3, _ref4,
     __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   Idea = (function(_super) {
     __extends(Idea, _super);
@@ -14,17 +15,12 @@
 
     Idea.prototype.idAttribute = "_id";
 
-    Idea.prototype.defaults = function() {
-      return {
-        title: "none set"
-      };
-    };
-
-    Idea.prototype.initialize = function() {
-      if (!this.get("title")) {
-        return this.set({
-          title: this.defaults().title
-        });
+    Idea.prototype.validate = function(attrs, options) {
+      if (attrs.title.length < 3) {
+        return "Title is too short";
+      }
+      if (attrs.title.length > 50) {
+        return "Title is too long";
       }
     };
 
@@ -67,13 +63,19 @@
     };
 
     IdeaView.prototype.updateIdea = function(e) {
+      var _this = this;
       if (e.keyCode === 13) {
-        if ((this.$el.find("input").val().length < 50) && (this.$el.find("input").val().length > 2)) {
-          this.model.set("title", $(".editBox").val());
-          this.model.save();
-          return;
-        }
-        return alert("Ideas must be between 3 and 49 characters in length. Try again.");
+        return this.model.save({
+          title: $(".editBox").val()
+        }, {
+          success: function(model, response) {
+            $(".inputBox").val("");
+            return _this.collection.fetch();
+          },
+          error: function(model, response) {
+            return alert('Whoops!');
+          }
+        });
       }
     };
 
@@ -108,6 +110,7 @@
     __extends(IdeasView, _super);
 
     function IdeasView() {
+      this.newIdea = __bind(this.newIdea, this);
       _ref3 = IdeasView.__super__.constructor.apply(this, arguments);
       return _ref3;
     }
@@ -141,17 +144,21 @@
     };
 
     IdeasView.prototype.newIdea = function(e) {
-      var newIdea;
+      var newIdea,
+        _this = this;
       if (e.keyCode === 13) {
-        if (($(".inputBox").val().length < 50) && ($(".inputBox").val().length > 2)) {
-          newIdea = new Idea();
-          newIdea.set("title", $(".inputBox").val());
-          newIdea.save();
-          $(".inputBox").val("");
-          return this.collection.fetch();
-        } else {
-          return alert("Ideas must be between 3 and 49 characters in length. Try again.");
-        }
+        newIdea = new Idea();
+        return newIdea.save({
+          title: $(".inputBox").val()
+        }, {
+          success: function(model, response) {
+            $(".inputBox").val("");
+            return _this.collection.fetch();
+          },
+          error: function(model, response) {
+            return alert('Whoops!');
+          }
+        });
       }
     };
 

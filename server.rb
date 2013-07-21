@@ -41,8 +41,16 @@ end
 
 post '/ideas' do
   #create
+  content_type 'application/json'
   request_body = JSON.parse(request.body.read.to_s)
-  Idea.create(title: request_body['title'])
+  new_idea = Idea.create(title: request_body['title'])
+
+  if new_idea.errors.any?
+    status 400
+  else
+    return new_idea.to_json
+  end
+
 end
 
 get '/ideas' do
@@ -52,8 +60,15 @@ get '/ideas' do
 end
 
 put '/ideas/:id' do
+  content_type 'application/json'
   request_body = JSON.parse(request.body.read.to_s)
-  Idea.find(@params[:id]).update_attributes(title: request_body['title'])
+  idea = Idea.find(@params[:id])
+  idea.update_attributes(title: request_body['title'])
+  if idea.errors.any?
+    return 400
+  else
+    return idea.to_json
+  end
   #update
 end
 
