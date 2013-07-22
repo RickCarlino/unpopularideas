@@ -2,7 +2,7 @@
 class Idea extends Backbone.Model
   idAttribute: "_id"
   validate: (attrs, options) ->
-    if (attrs.title.length < 3)
+    if (attrs.title.length < 4)
       return "Title is too short"
     if (attrs.title.length > 50)
       return "Title is too long"
@@ -22,25 +22,17 @@ class IdeaView extends Backbone.View
   clear: ->
     @model.destroy()
   edit: ->
-    #Optimize:
     @$el.find(".title").html _.template("<input class=\"editBox\" type=\"text\" value=\"<%= title %>\">", @model.attributes)
     @$el.find("input").focus()
-  updateIdea: (e) ->
-    # if e.keyCode is 13
-    #   if (@$el.find("input").val().length < 50) and (@$el.find("input").val().length > 2)
-    #     @model.set "title", $(".editBox").val()
-    #     @model.save()
-    #     return
-    #   alert "Ideas must be between 3 and 49 characters in length. Try again."
-    #DRY this up. You use it in both SAVE and UPDATE views
+  updateIdea: (e) =>
     if e.keyCode is 13
-      @model.save {title: $(".editBox").val()},
+      @model.set 'title', $(".editBox").val()
+      @model.save null,
         success: (model, response) =>
           $(".inputBox").val ""
-          @collection.fetch()
         error: (model, response)   =>
-          #TODO: Real errors.
-          alert 'Whoops!'
+          console.error 'Unable to save your idea. Try again or check your internet connection.'
+      alert @model.validationError unless @model.isValid()
   render: ->
     renderedContent = @template(@model.toJSON())
     $(@el).html renderedContent
@@ -79,22 +71,14 @@ class IdeasView extends Backbone.View
       newIdea = new Idea()
       newIdea.save {title: $(".inputBox").val()},
         success: (model, response) =>
+          
           $(".inputBox").val ""
           @collection.fetch()
         error: (model, response)   =>
+          
           #TODO: Real errors.
           alert 'Whoops!'
-      #Put this into a validation. Use the error callback.
-      # if ($(".inputBox").val().length < 50) and ($(".inputBox").val().length > 2)
-      #   newIdea = new Idea()
-      #   newIdea.set "title", $(".inputBox").val()
-      #   newIdea.save()
-      #   $(".inputBox").val ""
-      #   @collection.fetch()
-      # #wtf. Why won't it automatically repopulate?
-      # else
-      #   alert "Ideas must be between 3 and 49 characters in length. Try again."
-
+        
 
 class UnpopularIdeas extends Backbone.Router
   routes:
@@ -105,7 +89,6 @@ class UnpopularIdeas extends Backbone.Router
     @stream = new IdeasView(collection: ideas)
   home: ->
     $("#container").append @stream.render().el
-
 
 $ ->
   window.App = new UnpopularIdeas()

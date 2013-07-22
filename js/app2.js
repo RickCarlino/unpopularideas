@@ -16,7 +16,7 @@
     Idea.prototype.idAttribute = "_id";
 
     Idea.prototype.validate = function(attrs, options) {
-      if (attrs.title.length < 3) {
+      if (attrs.title.length < 4) {
         return "Title is too short";
       }
       if (attrs.title.length > 50) {
@@ -34,6 +34,7 @@
     __extends(IdeaView, _super);
 
     function IdeaView() {
+      this.updateIdea = __bind(this.updateIdea, this);
       _ref1 = IdeaView.__super__.constructor.apply(this, arguments);
       return _ref1;
     }
@@ -65,17 +66,18 @@
     IdeaView.prototype.updateIdea = function(e) {
       var _this = this;
       if (e.keyCode === 13) {
-        return this.model.save({
-          title: $(".editBox").val()
-        }, {
+        this.model.set('title', $(".editBox").val());
+        this.model.save(null, {
           success: function(model, response) {
-            $(".inputBox").val("");
-            return _this.collection.fetch();
+            return $(".inputBox").val("");
           },
           error: function(model, response) {
-            return alert('Whoops!');
+            return console.error('Unable to save your idea. Try again or check your internet connection.');
           }
         });
+        if (!this.model.isValid()) {
+          return alert(this.model.validationError);
+        }
       }
     };
 
