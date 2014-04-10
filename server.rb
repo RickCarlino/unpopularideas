@@ -1,21 +1,8 @@
 require 'sinatra'
-require 'sinatra/reloader' if development?
 require 'pry' if development?
 require 'pry-nav' if development?
 require 'mongo'
 require 'mongoid'
-
-#DISCLAIMER--------------------
-
-#==============================
-# This backend is minimally
-# viable to the fullest extent
-# of the law. The focus of this
-# app was learning CRUD in 
-# backbone, rather than how to 
-# build a pragmatic RESTful API.
-# Please Keep that in mind.
-#==============================
 
 configure do
   Mongoid.load!('mongoid.yml')
@@ -29,8 +16,7 @@ class Idea
   validates_presence_of :title
 end
 
-get '/:dir/:file' do
-  
+get '/:dir/:file' do  
   send_file File.join(params[:dir], params[:file])
 end
 

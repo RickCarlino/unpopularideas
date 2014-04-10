@@ -3,8 +3,10 @@ class Idea extends Backbone.Model
   idAttribute: "_id"
   validate: (attrs, options) ->
     if (attrs.title.length < 4)
+      alert 'Thats too short'
       return "Title is too short"
     if (attrs.title.length > 50)
+      alert 'Thats too long'
       return "Title is too long"
   urlRoot: "/ideas"
 
@@ -52,8 +54,6 @@ class IdeasView extends Backbone.View
     @collection.bind "reset", @render
     @collection.bind "change", @render
   render: ->
-    $ideas = undefined
-    collection = undefined
     $(@el).html @template
     #using this.$() scopes it to the particular DOM element
     $ideas = @$(".ideas")

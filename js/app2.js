@@ -17,9 +17,11 @@
 
     Idea.prototype.validate = function(attrs, options) {
       if (attrs.title.length < 4) {
+        alert("That's too short.");
         return "Title is too short";
       }
       if (attrs.title.length > 50) {
+        alert("That's too long.");
         return "Title is too long";
       }
     };
